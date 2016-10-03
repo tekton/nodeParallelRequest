@@ -25,7 +25,7 @@ In order to support a fully dynamic parallel request aspect only post is support
         {"url": "http://localhost:5678/a"},
         {"url": "http://localhost:5678/a?asd=123"},
         {"server": "localhost", "port": 5678, "params": "a"},
-        {"server": "localhost", "port": 5678, "params": "a", "query": ["b": 1, "x": "yzx"]}
+        {"server": "localhost", "port": 5678, "params": "a", "query": [{"b": 1}, {"x": "yzx"}]}
     ]
 }
 
