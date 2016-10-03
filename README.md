@@ -39,3 +39,9 @@ http://localhost:3000/x
 ```
 
 Which will return the body from each of the urls called, along with timings.
+
+
+LICENSE
+-------
+
+MIT
