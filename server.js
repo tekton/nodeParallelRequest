@@ -7,10 +7,14 @@ var app = express();
 function callURL(url, callback) {
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log("req body ", body) // Show the HTML for the Google homepage.
+            // console.log("req body ", body)  // not needed debug statement
             callback(null, JSON.parse(body));
+        } else if (error) {
+            console.log(error);
+            msg = {"error": error, "url": url}
+            callback(null, msg);
         } else {
-            callback(error || response.statusCode);
+            callback(null, response.statusCode);
         }
     })
 }
@@ -23,18 +27,16 @@ app.get('/', function (req, res) {
 });
 
 app.post("/x", function (req, res){
+    var start = new Date();
     // console.log(req.body);
     console.log(req.body.urls);
     var data = []
     async.mapLimit(req.body.urls, 10, callURL, function(err, body) {
-        if(err) {
-            console.log("err", err);
-            throw err;
-        } else {
-            console.log("body", body);
-            data.push(body)
-            res.send(data);
-        }
+        if (err) data.push(err);
+        data.push(body)
+        var end = new Date();
+        data.push({"timings": {"total (ms)": end.getTime() - start.getTime()}})
+        res.send(data);
     });
 });
 
